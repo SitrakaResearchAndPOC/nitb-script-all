@@ -1,1 +1,1 @@
-# -nitb-script-all-
+# nitb-script-all
