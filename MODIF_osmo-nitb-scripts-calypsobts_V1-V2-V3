@@ -1,0 +1,107 @@
+calypso v1 : 
+Change main.py et main_spoof.py de 
+
+    services = ["osmo-nitb3.service",
+                "osmo-trx-lms3.service",
+                "osmo-bts-trx3.service",
+                "osmo-pcu3.service",
+                "osmo-ggsn3.service",
+                "osmo-sgsn3.service",
+                "osmo-sip-connector3.service",
+                "asterisk"]
+en
+
+
+    services = ["osmo-nitb3.service",
+                "osmo-trx-lms3.service",
+                "osmo-bts-trx3.service"]
+
+
+Commenter 
+#    sdr_check()
+
+
+gedit services/osmo-nitb3.service 
+
+changer 
+
+/usr/src/CalypsoBTS/openbsc.cfg
+
+en
+
+/etc/osmocom3/osmo-nitb.cfg
+
+
+gedit services/osmo-nitb_sip3.service 
+changer 
+
+/etc/osmocom/osmo-nitb.cfg
+
+en
+
+/etc/osmocom3/osmo-nitb.cfg
+
+
+configuration mémoriser
+
+
+
+----------------------------
+
+V2
+
+gedit scripts/HLR.py
+
+
+#        self.db = sqlite3.connect(hlr_loc)
+
+By
+        self.db = sqlite3.connect(hlr_loc, timeout=3000)
+
+
+
+
+
+
+
+gedit scripts_spoof2/sms_send_source_dest_msg.py 
+
+usage: ./sms_broadcast.py extension message
+This script sends a message from the specified extension (number) to all devices connected to this base station
+
+en
+
+usage: ./sms_send_source_dest_msg.py extension_source extension_destination  message
+This script sends a message from the specified extension source (number) to extension destination connected to this base station
+
+
+V3 no schred mode 
+
+gedit services/osmo-trx-lms3.service 
+
+enlever r99
+
+
+
+
+
+gedit services/osmo-bts-trx3.service 
+
+
+
+
+
+commenter
+# Let it process messages quickly enough
+# CPUSchedulingPolicy=rr
+# CPUSchedulingPriority=1
+
+
+
+
+gedit main.py
+#    subprocess.call("sysctl -w kernel.sched_rt_runtime_us=-1", shell=True)
+
+
+gedit main_spoof.py
+#    subprocess.call("sysctl -w kernel.sched_rt_runtime_us=-1", shell=True)
